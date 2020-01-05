@@ -1,19 +1,40 @@
 import React from 'react';
-import {View, TextInput, Text,Button, TouchableHighlight, TouchableHighlightBase} from 'react-native'
+import {View, TextInput, Text,Image, TouchableHighlight} from 'react-native'
+import CustomButton from '../cutomComponenets/CustomButton.js'
 import styles from './styles.js';
-export default class RegisterForm extends React.Component{
+import { auth } from '../config/config.js';
+class RegisterForm extends React.Component{
     state = {
         name : '',
         userName : '',
         password : ''
     }
+    register(email, password){
+      console.log(this.state.name+","+this.state.userName+","+this.state.password);
+      if(email != '' && password != ''){
+        auth.createUserWithEmailAndPassword(email, password)
+        .then(()=>{
+          this.props.navigation.navigate('MainPage');
+        })
+        .catch((e)=>{
+          alert('User Aldready Exists');
+        });
+      }
+      else{
+        alert('Email or password cannot be blank');
+      }
+    }
     render(){
         return(
-            <View style = {styles.loginForm}>
+      <View style = {styles.appbackground}>
+        <Image
+       style = {styles.logo}
+       source = {{uri : this.logouri}}
+      ></Image>
         <TextInput style = {styles.inputtext}
           placeholderTextColor = 'gray'
           placeholder = "Name"
-          onChangeText = {(text) => this.setState({userName : text})}
+          onChangeText = {(text) => this.setState({name : text})}
         ></TextInput>
         <View style = {styles.emptyspace}></View>
         <TextInput style = {styles.inputtext}
@@ -31,16 +52,19 @@ export default class RegisterForm extends React.Component{
           >
           </TextInput>
           <View style={styles.emptyspace}/>
-          <Button style= {styles.normalbutton} onPress={this.props.registerAction(this.state.userName,this.state.password)} title="Submit"></Button>
+          <CustomButton callback={()=>this.register(this.state.userName,this.state.password)} styles={styles.normalbutton} text="Register"></CustomButton>
+
           <View style={styles.emptyspace}/>
           <Text style={{textAlign : "center"}}>Aldready have an account ?
           </Text>
-          <TouchableHighlight onPress={this.props.loginOrRegisterChange(true)}>
-            <Text style={{textAlign : 'center', fontWeight:'bold'}}>
-                Login
+          <TouchableHighlight onPress={()=>this.props.navigation.navigate('Login')}>
+            <Text style={{textAlign :"center", fontWeight :'bold'}}>
+              Login
             </Text>
           </TouchableHighlight>
       </View>
         )
     }
+    logouri = 'https://pngimage.net/wp-content/uploads/2018/06/vine-logo-png-transparent-background-5.png';
 }
+export default RegisterForm;

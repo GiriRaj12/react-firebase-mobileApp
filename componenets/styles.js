@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
-    appbackground :{
+  appbackground :{
         flex : 1,
     backgroundColor : 'white'
     },
@@ -11,8 +11,24 @@ const styles = StyleSheet.create({
       textAlignVertical : "center",
       marginHorizontal: 16,
     },
+    floatingButton :{
+      borderWidth:1,
+      borderColor:'rgba(0,0,0,0.2)',
+      alignItems:'center',
+      justifyContent:'center',
+      width:70,
+      position: 'absolute',                                          
+      bottom: 10,                                                    
+      right: 10,
+      height:70,
+      backgroundColor:'#fff',
+      borderRadius:100,
+    },
     inputtext : {
-      width : '100%',
+      width : '80%',
+      padding : 10,
+      marginLeft : 40,
+      alignContent : 'center',
       height : 40,
       borderRadius : 3,
       borderColor : 'gray',
@@ -23,7 +39,11 @@ const styles = StyleSheet.create({
       width: 50,
       marginVertical: 10,
     },
+    
     normalbutton :{
+      width : 100,
+      marginLeft : 150,
+      alignContent : 'center',
       backgroundColor: '#ff8c00',
       borderColor: 'white',
       borderWidth: 1,
@@ -32,7 +52,7 @@ const styles = StyleSheet.create({
       fontSize: 12,
       overflow: 'hidden',
       padding: 6,
-      textAlign:'center',
+      textAlign:'center'
     },
     warningbutton :{
       backgroundColor: '#fffafa',
