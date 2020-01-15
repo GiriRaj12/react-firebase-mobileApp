@@ -5,14 +5,15 @@ import LoginForm from './componenets/LoginForm';
 import RegisterForm from './componenets/RegisterForm';
 import Root from './componenets/Root';
 import MainPage from './componenets/MainPage';
+import AddText from './componenets/AddText'
 
 const RootStack = createStackNavigator(
   {
     Root: Root,
     Login: LoginForm,
     Register: RegisterForm,
-    MainPage:MainPage,
-    addText:AddText
+    Translations: MainPage,
+    AddText: AddText
   },
   {
     initialRouteName: 'Root',

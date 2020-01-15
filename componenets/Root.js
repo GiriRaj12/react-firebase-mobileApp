@@ -1,43 +1,43 @@
 import React from 'react';
-import {f,auth} from '../config/config.js';
+import { f, auth } from '../config/config.js';
 import { View } from 'react-native';
 
 
 class Root extends React.Component {
   state = {
-      loggedIn : false,
+    loggedIn: false,
   }
-  
-  constructor(props){
+
+  constructor(props) {
     super(props);
-      console.log("Into constructor");
-      f.auth().onAuthStateChanged((user)=>{
-        if(user){
-          this.setState({loggedIn: true});
-          this.props.navigation.navigate('MainPage');
-        }
-        else{
-          this.setState({loggedIn: false});
-          console.log("logged out");
-          this.props.navigation.navigate('Login');
-        }
-      });
-    }
-  
+    console.log("Into constructor");
+    f.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loggedIn: true });
+        this.props.navigation.navigate('Translations');
+      }
+      else {
+        this.setState({ loggedIn: false });
+        console.log("logged out");
+        this.props.navigation.navigate('Login');
+      }
+    });
+  }
+
   //Sign Out Action 
-  signOut(){
+  signOut() {
     auth.signOut()
-      .then(()=>{
+      .then(() => {
         this.setState({
-          loggedIn : false
+          loggedIn: false
         })
       }).catch((e) => {
         console.log(e);
       });
   }
-  render(){
-    return<View>
-      
+  render() {
+    return <View>
+
     </View>
   }
 }

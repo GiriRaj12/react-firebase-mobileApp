@@ -2,8 +2,8 @@ import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
   appbackground :{
-        flex : 1,
-    backgroundColor : 'white'
+      flex: 1,
+      backgroundColor:'white'
     },
     container: {
       flex: 1,
@@ -11,18 +11,17 @@ const styles = StyleSheet.create({
       textAlignVertical : "center",
       marginHorizontal: 16,
     },
+    floatingButtonTouch:{
+      right:10,
+      bottom:10, 
+      marginTop:'90%',
+    },
     floatingButton :{
-      borderWidth:1,
-      borderColor:'rgba(0,0,0,0.2)',
-      alignItems:'center',
-      justifyContent:'center',
-      width:70,
-      position: 'absolute',                                          
-      bottom: 10,                                                    
-      right: 10,
-      height:70,
-      backgroundColor:'#fff',
-      borderRadius:100,
+      resizeMode: 'contain',
+      width: 55,
+      height: 55,
+      marginLeft:'78%',
+      marginTop:'82%'
     },
     inputtext : {
       width : '80%',
@@ -77,7 +76,23 @@ const styles = StyleSheet.create({
         width : 40,
         textAlign : "center",
         fontSize : 12,  
+    },
+    parralelViewParent :{
+      flexDirection:'row',
+      alignItems:'center'
+    },
+    parralelViewElement:{
+      justifyContent:'space-evenly',
+    },
+    instructionsText:{
+      color:'grey', 
+      marginLeft:20, 
+      fontSize:12, 
+      fontFamily:'sans-serif', 
+      textAlign:'left', 
+      width:'80%'
     }
+
   });
 
   export default styles;
