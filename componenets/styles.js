@@ -45,11 +45,21 @@ const styles = StyleSheet.create({
       alignContent : 'center',
       backgroundColor: '#ff8c00',
       borderColor: 'white',
-      borderWidth: 1,
       borderRadius: 12,
       color: 'white',
       fontSize: 12,
-      overflow: 'hidden',
+      padding: 4,
+      textAlign:'center'
+    },
+    viewbutton :{
+      width : 140,
+      marginLeft:38,
+      alignContent : 'center',
+      backgroundColor: '#ff8c00',
+      borderColor: 'white',
+      borderRadius: 12,
+      color: 'white',
+      fontSize: 12,
       padding: 6,
       textAlign:'center'
     },
@@ -91,6 +101,11 @@ const styles = StyleSheet.create({
       fontFamily:'sans-serif', 
       textAlign:'left', 
       width:'80%'
+    },
+    translatedText:{
+      marginLeft:20, 
+      fontSize:18, 
+      textAlign:'left',
     }
 
   });
