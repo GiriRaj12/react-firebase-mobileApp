@@ -3,7 +3,8 @@ import {StyleSheet} from 'react-native'
 const styles = StyleSheet.create({
   appbackground :{
       flex: 1,
-      backgroundColor:'white'
+      backgroundColor:'white',
+      position:'relative'
     },
     container: {
       flex: 1,
@@ -12,16 +13,14 @@ const styles = StyleSheet.create({
       marginHorizontal: 16,
     },
     floatingButtonTouch:{
-      right:10,
-      bottom:10, 
-      marginTop:'90%',
+      position:'absolute',
+      right:20,
+      bottom:30
     },
     floatingButton :{
       resizeMode: 'contain',
       width: 55,
       height: 55,
-      marginLeft:'78%',
-      marginTop:'82%'
     },
     inputtext : {
       width : '80%',
@@ -104,8 +103,28 @@ const styles = StyleSheet.create({
     },
     translatedText:{
       marginLeft:20, 
+      marginRight:20,
       fontSize:18, 
       textAlign:'left',
+    },
+    cardDsiplay:{
+      flex: 1,
+      backgroundColor:'#FFFF',
+      width:'90%',
+      margin:20,
+      shadowOffset:{  width: 10,  height: 10,  },
+      shadowColor: 'black',
+      shadowOpacity: 1.0,
+    },
+    sideHeadings:{
+      padding:7,
+      color:'#ff8c00',
+      fontSize:16,
+      fontFamily:'sans-serif',
+    },
+    showTexts:{
+      marginLeft:16,
+      fontSize:18
     }
 
   });

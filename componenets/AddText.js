@@ -1,45 +1,86 @@
 import React from 'react';
-import { View, Picker, Text } from 'react-native';
+import { View, Picker, Text, ActivityIndicator } from 'react-native';
 import styles from './styles';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import CustomButton from '../cutomComponenets/CustomButton';
 import content from '../commonContent/content.js';
 import TextApi from '../config/textApi';
+import { database, auth } from '../config/config.js'
 
 export default class AddText extends React.Component {
     state = {
         fromLanguage: "en",
         toLanguage: "en",
-        translatedText: content.addTextContent,
-        textToTranslate: "",
+        translatedText: '',
+        textToTranslate: '',
+        saveLoading: false,
+        response: '',
         textDisplay: <Text></Text>
     }
 
     translate = () => {
-        // const lang = this.state.fromLanguage + "-" + this.state.toLanguage;
-        // if (this.state.textToTranslate != undefined) {
-        //     console.log("Text to translate " + this.state.textToTranslate)
-        //     let url = TextApi.url + "?key=" + TextApi.key + "&lang=" + lang + "&text=" + this.state.textToTranslate;
-        //     console.log(url);
-        //     fetch(url, {
-        //         method: 'GET',
-        //     })
-        //         .then((res) => res.json())
-        //         .then(res => {
-        //             console.log(res);
-        //             this.setState({ textDisplay: <View>
-        //                 <Text>{this.state.translatedText}</Text>
-        //                 <CustomButton styles={styles.viewbutton} callback={this.addSuggestedText}/>
-        //             </View> })
-        //         })
-        //         .catch((error) => {
-        //             console.log(error);
-        //         });
-        this.setState({textDisplay:<View>
-                        <Text style={styles.translatedText}>{this.state.translatedText}</Text>
-                        <View style={styles.emptyspace}/>
-                        <CustomButton text="Add Suggesion" styles={styles.viewbutton} callback={this.addSuggestedText}/>
-         </View>});
+        this.setState({ textDisplay: <ActivityIndicator size="small" color="#ff8c00" /> });
+        const lang = this.state.fromLanguage + "-" + this.state.toLanguage;
+        console.log(lang);
+        if (this.state.textToTranslate) {
+            console.log("Text to translate " + this.state.textToTranslate)
+            let url = TextApi.url + "?key=" + TextApi.key + "&lang=" + lang + "&text=" + this.state.textToTranslate;
+            console.log(url);
+            fetch(url, {
+                method: 'GET',
+            })
+                .then((res) => res.json())
+                .then(res => {
+                    console.log(res);
+                    this.setState({
+                        textDisplay: <View style={{ marginBottom: 20 }}>
+                            <Text>{res.text[0]}</Text>
+                            <View style={styles.emptyspace} />
+                            <CustomButton text="Add Suggesion" styles={styles.viewbutton} callback={this.addSuggestedText} />
+                        </View>
+                    });
+                    this.setState({ response: res.text[0] });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
+
+    addSuggestedText = () => {
+        if (this.state.textToTranslate && this.state.response) {
+            this.save(this.state.textToTranslate, this.state.response);
+        }
+        else {
+            alert('Translated text or Text to Translate cannot be empty');
+        }
+    }
+
+    addText = () => {
+        console.log(this.state.textToTranslate + "," + this.state.translatedText);
+        if (this.state.textToTranslate && this.state.translatedText) {
+            this.save(this.state.textToTranslate, this.state.translatedText);
+        }
+        else {
+            alert('Translated text or Text to Translate cannot be empty');
+        }
+    }
+
+    //Utilities 
+
+    save = (before, after) => {
+        this.setState({ saveLoading: true });
+        database.ref('/translations/' + auth.currentUser.uid).push({
+                userId: auth.currentUser.uid,
+                userEmail: auth.currentUser.email,
+                fromLang: this.state.fromLanguage,
+                toLang: this.state.toLanguage,
+                beforeTranslation: before,
+                afterTranslation: after,
+                createdDateLong: new Date().getTime()
+        }).then(() => this.setState({ saveLoading: false }))
+            .catch(() => this.setState({ saveLoading: false }));
+        alert('Translation Added');
     }
 
     handleFromChange = (from) => {
@@ -93,6 +134,7 @@ export default class AddText extends React.Component {
                         <CustomButton callback={this.translate} text="Get Translation" styles={styles.viewbutton}></CustomButton>
                         <CustomButton callback={this.addText} text="Add Text" styles={styles.viewbutton}></CustomButton>
                     </View>
+                    <ActivityIndicator animating={this.state.saveLoading} size="small" color="#ff8c00"></ActivityIndicator>
                     <View style={styles.emptyspace} />
                     <View style={styles.emptyspace} />
                     <Text style={{ color: 'black', marginLeft: 20, marginTop: 40 }}>Instructions</Text>
