@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": " InstaClone",
+    "name": "Learn Lang",
     "slug": "react-firebase-app",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.girisapp.learnlang"
+    },
+    "android": {
+      "package": "com.girisapp.learnlang"
     }
   }
 }

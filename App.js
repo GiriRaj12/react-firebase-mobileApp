@@ -10,9 +10,15 @@ import AddText from './componenets/AddText'
 const RootStack = createStackNavigator(
   {
     Root: Root,
-    Login: LoginForm,
+    Login:LoginForm,
     Register: RegisterForm,
-    Translations: MainPage,
+    Translations: {
+      name: 'Main Screen',
+      screen: MainPage,
+      navigationOptions: {
+          gesturesEnabled: false,
+      },
+    },
     AddText: AddText
   },
   {

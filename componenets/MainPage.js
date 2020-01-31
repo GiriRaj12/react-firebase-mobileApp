@@ -17,20 +17,20 @@ class MainPage extends React.Component {
         })
     }
 
-    customElementView = () => {
-
+    componentDidMount() {
+        this.getData();
     }
 
-    componentDidMount() {
+    getData = ()=>{
         this.setState({ loading: true });
-        database.ref('/translations/' + auth.currentUser.uid).once('value').then((datas) => {
+        database.ref('/translations/' + auth.currentUser.uid).once('value',(datas) => {
             datas.forEach((child) => {
-                this.setState({data : [...this.state.data, child.val()]});
+                this.setState({data : [...this.state.data,child.val()]});
             });
             this.setState({loading:false});
-            console.log(this.state.data);
         });
     }
+
 
 
 
@@ -39,7 +39,7 @@ class MainPage extends React.Component {
             <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
                 <ScrollView>
                     {this.state.data.map((element) =>
-                     <View style={styles.cardDsiplay}>
+                     <View key={element.key} style={styles.cardDsiplay}>
                     <Text style={styles.sideHeadings}>Before :</Text>
                     <Text style={styles.showTexts}>{element.beforeTranslation}</Text>
                     <Text style={styles.sideHeadings}>Translated :</Text>

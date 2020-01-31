@@ -31,7 +31,6 @@ export default class AddText extends React.Component {
             })
                 .then((res) => res.json())
                 .then(res => {
-                    console.log(res);
                     this.setState({
                         textDisplay: <View style={{ marginBottom: 20 }}>
                             <Text>{res.text[0]}</Text>
@@ -57,7 +56,6 @@ export default class AddText extends React.Component {
     }
 
     addText = () => {
-        console.log(this.state.textToTranslate + "," + this.state.translatedText);
         if (this.state.textToTranslate && this.state.translatedText) {
             this.save(this.state.textToTranslate, this.state.translatedText);
         }
@@ -77,7 +75,8 @@ export default class AddText extends React.Component {
                 toLang: this.state.toLanguage,
                 beforeTranslation: before,
                 afterTranslation: after,
-                createdDateLong: new Date().getTime()
+                createdDateLong: new Date().getTime(),
+                key: Math.random().toString(36).substring(6)
         }).then(() => this.setState({ saveLoading: false }))
             .catch(() => this.setState({ saveLoading: false }));
         alert('Translation Added');

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, Text,Image, TouchableHighlight} from 'react-native'
+import {View, TextInput, Text,Image,ActivityIndicator, TouchableHighlight} from 'react-native'
 import CustomButton from '../cutomComponenets/CustomButton.js'
 import styles from './styles.js';
 import { auth } from '../config/config.js';
@@ -7,16 +7,20 @@ class RegisterForm extends React.Component{
     state = {
         name : '',
         userName : '',
-        password : ''
+        password : '',
+        loadingView:false
     }
     register(email, password){
       console.log(this.state.name+","+this.state.userName+","+this.state.password);
-      if(email != '' && password != ''){
+      if(email && password ){
+        this.setState({loadingView:true});
         auth.createUserWithEmailAndPassword(email, password)
         .then(()=>{
+          this.setState({loadingView:false});
           this.props.navigation.navigate('MainPage');
         })
         .catch((e)=>{
+          this.setState({loadingView:false});
           alert('User Aldready Exists');
         });
       }
@@ -24,6 +28,7 @@ class RegisterForm extends React.Component{
         alert('Email or password cannot be blank');
       }
     }
+
     render(){
         return(
       <View style = {styles.appbackground}>
@@ -53,7 +58,8 @@ class RegisterForm extends React.Component{
           </TextInput>
           <View style={styles.emptyspace}/>
           <CustomButton callback={()=>this.register(this.state.userName,this.state.password)} styles={styles.normalbutton} text="Register"></CustomButton>
-
+          <View style={styles.emptyspace}/>
+          <ActivityIndicator size='small' color='#ff8c00' animating={this.state.loadingView}></ActivityIndicator>
           <View style={styles.emptyspace}/>
           <Text style={{textAlign : "center"}}>Aldready have an account ?
           </Text>
