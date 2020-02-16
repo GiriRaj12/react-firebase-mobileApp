@@ -12,13 +12,7 @@ const RootStack = createStackNavigator(
     Root: Root,
     Login:LoginForm,
     Register: RegisterForm,
-    Translations: {
-      name: 'Main Screen',
-      screen: MainPage,
-      navigationOptions: {
-          gesturesEnabled: false,
-      },
-    },
+    Translations:MainPage,
     AddText: AddText
   },
   {

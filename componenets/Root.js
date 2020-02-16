@@ -1,6 +1,5 @@
 import React from 'react';
 import { f, auth } from '../config/config.js';
-import { View } from 'react-native';
 
 
 class Root extends React.Component {
@@ -14,12 +13,12 @@ class Root extends React.Component {
     f.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ loggedIn: true });
-        this.props.navigation.navigate('Translations');
+        this.props.navigation.replace('Translations');
       }
       else {
         this.setState({ loggedIn: false });
         console.log("logged out");
-        this.props.navigation.navigate('Login');
+        this.props.navigation.replace('Login');
       }
     });
   }
@@ -36,9 +35,7 @@ class Root extends React.Component {
       });
   }
   render() {
-    return <View>
-
-    </View>
+    return null
   }
 }
 

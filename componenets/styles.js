@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     showTexts:{
       marginLeft:16,
       fontSize:18
-    }
+    },
 
   });
 

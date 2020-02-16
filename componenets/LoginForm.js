@@ -18,7 +18,7 @@ class LoginForm extends React.Component {
       auth.signInWithEmailAndPassword(username, password)
         .then(() => {
           this.setState({loadingView:false});
-          this.props.navigation.navigate('MainPage');
+          this.props.navigation.replace('Translations');
         })
         .catch((e) => {
           this.setState({loadingView:false});

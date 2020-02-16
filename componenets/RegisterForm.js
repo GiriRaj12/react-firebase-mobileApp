@@ -17,7 +17,7 @@ class RegisterForm extends React.Component{
         auth.createUserWithEmailAndPassword(email, password)
         .then(()=>{
           this.setState({loadingView:false});
-          this.props.navigation.navigate('MainPage');
+          this.props.navigation.replace('Translations');
         })
         .catch((e)=>{
           this.setState({loadingView:false});
