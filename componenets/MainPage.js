@@ -1,12 +1,14 @@
 import React from 'react'
-import { Image, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator, View, Text, Icon } from 'react-native';
+import { Image, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator, View, Text } from 'react-native';
 import styles from './styles';
 import Constants from 'expo-constants';
 import { database, auth } from '../config/config.js';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Icon } from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
 class MainPage extends React.Component {
     state = {
         data: [],
+        tempData:[],
         loading: false,
         searchText: '',
     }
@@ -15,20 +17,55 @@ class MainPage extends React.Component {
         this.getData();
     }
 
+    signOut = () => {
+        auth.signOut()
+          .then(() => {
+            this.props.navigation.replace('Root');
+          }).catch((e) => {
+            console.log(e);
+          });
+      }
+
     getData = () => {
         this.setState({ loading: true });
         database.ref('/translations/' + auth.currentUser.uid).once('value', (datas) => {
             datas.forEach((child) => {
                 this.setState({ data: [...this.state.data, child.val()] });
             });
+            this.setState({tempData : this.state.data});
             this.setState({ loading: false });
         });
     }
+
+    getAddedData = ()=>{
+        console.log("Into get added data");
+        database.ref('/translations/'+auth.currentUser.uid).on('child_added', (data)=>{
+                data.forEach((element) => {
+                    this.setState({data:[...this.state.data, element.val()]});
+                });
+                this.setState({tempData:this.state.data});
+        });
+
+    }
     
     search = (text) => {
+        var myPattern = new RegExp('(\\w*'+text+'\\w*)','gi');
         console.log(text);
         this.setState({ searchText: text });
+        this.state.data.forEach((e) => {
+                if(e.beforeTranslation.toString().match(myPattern)){
+                    this.setState({tempData:[e]});
+                }
+        });
     }
+
+    clearSearch = ()=> {
+        this.setState({tempData: this.state.data});
+    }
+
+    icon = <Icon
+    name='g-translate'
+    color='#ff8c00'></Icon>
 
     getShowView(element) {
         return <View key={element.key} style={styles.cardDsiplay}>
@@ -51,16 +88,18 @@ class MainPage extends React.Component {
                         value={this.state.searchText}
                         platform="default"
                         lightTheme={true}
+                        onClear = {() => this.clearSearch()}
+                        cancelIcon = {this.icon}
                         containerStyle={{backgroundColor:'transparent'}}
                     />
                 <ScrollView>
-                    {this.state.data.map((element) => {
+                    {this.state.tempData.map((element) => {
                         return this.getShowView(element);
                     })}
                 </ScrollView>
                 <ActivityIndicator animating={this.state.loading} style={{ margin: '25%', position: 'absolute' }} size="large" color="#ff8c00" />
                 <TouchableOpacity style={styles.floatingButtonTouch}
-                    onPress={() => this.props.navigation.navigate('AddText')}>
+                    onPress={() => this.props.navigation.navigate('AddText', this.getAddedData)}>
                     <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png' }}
                         style={styles.floatingButton} />
                 </TouchableOpacity>
