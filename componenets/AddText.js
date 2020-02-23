@@ -79,7 +79,7 @@ export default class AddText extends React.Component {
                 createdDateLong: new Date().getTime(),
                 key: Math.random().toString(36).substring(6)
         }).then(() => {
-            this.setState({ saveLoading: false })
+            this.setState({ saveLoading: false, textToTranslate:'', translatedText:'' })
             this.props.getAddedData();
         })
             .catch(() => this.setState({ saveLoading: false }));

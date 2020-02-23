@@ -3,7 +3,8 @@ import { Image, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator, V
 import styles from './styles';
 import Constants from 'expo-constants';
 import { database, auth } from '../config/config.js';
-import { SearchBar, Icon} from 'react-native-elements';
+import { SearchBar, Icon, Button} from 'react-native-elements';
+import CustomButton from '../cutomComponenets/CustomButton';
 class MainPage extends React.Component {
     state = {
         data: [],
@@ -26,17 +27,6 @@ class MainPage extends React.Component {
             this.setState({tempData : this.state.data});
             this.setState({ loading: false });
         });
-    }
-
-    getAddedData = ()=>{
-        console.log("Into get added data");
-        database.ref('/translations/'+auth.currentUser.uid).on('child_added', (data)=>{
-                data.forEach((element) => {
-                    this.setState({data:[...this.state.data, element.val()]});
-                });
-                this.setState({tempData:this.state.data});
-        });
-
     }
     
     search = (text) => {
@@ -65,6 +55,12 @@ class MainPage extends React.Component {
         </View>
     }
 
+    loadPage = ()=>{    
+        this.setState({loading:true});
+        this.setState({data:[]});
+        this.getData();
+    }
+
 
 
     render() {
@@ -84,8 +80,9 @@ class MainPage extends React.Component {
                     {this.state.tempData.map((element) => {
                         return this.getShowView(element);
                     })}
+                    <Button onPress={()=> this.loadPage()} title="Load More" buttonStyle={{marginLeft:"35%",height:20, width:120}}/>   
                 </ScrollView>
-                <ActivityIndicator animating={this.state.loading} style={{ margin: '25%', position: 'absolute' }} size="large" color="#ff8c00" />
+                <ActivityIndicator animating={this.state.loading} style={{ margin: '35%', position: 'absolute' }} size="large" color="#ff8c00" />
                 <TouchableOpacity style={styles.floatingButtonTouch}
                     onPress={() => this.props.navigation.navigate('AddText')}>
                     <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png' }}

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
-    appbackground :{
+  appbackground :{
       flex: 1,
       backgroundColor:'white',
       position:'relative'
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#ff8c00',
       borderColor: 'white',
       borderRadius: 12,
-      color: 'white',
+      color: '#ff8c00',
       fontSize: 12,
       padding: 4,
       textAlign:'center'
