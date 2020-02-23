@@ -22,18 +22,6 @@ class Root extends React.Component {
       }
     });
   }
-
-  //Sign Out Action 
-  signOut() {
-    auth.signOut()
-      .then(() => {
-        this.setState({
-          loggedIn: false
-        })
-      }).catch((e) => {
-        console.log(e);
-      });
-  }
   render() {
     return null
   }

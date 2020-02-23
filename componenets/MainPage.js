@@ -3,28 +3,19 @@ import { Image, ScrollView, SafeAreaView, TouchableOpacity, ActivityIndicator, V
 import styles from './styles';
 import Constants from 'expo-constants';
 import { database, auth } from '../config/config.js';
-import { SearchBar, Icon } from 'react-native-elements';
-import { useIsFocused } from '@react-navigation/native';
+import { SearchBar, Icon} from 'react-native-elements';
 class MainPage extends React.Component {
     state = {
         data: [],
         tempData:[],
         loading: false,
         searchText: '',
+        searchPlaceHolder:"Type to search.."
     }
 
     componentDidMount() {
         this.getData();
     }
-
-    signOut = () => {
-        auth.signOut()
-          .then(() => {
-            this.props.navigation.replace('Root');
-          }).catch((e) => {
-            console.log(e);
-          });
-      }
 
     getData = () => {
         this.setState({ loading: true });
@@ -59,19 +50,16 @@ class MainPage extends React.Component {
         });
     }
 
+
     clearSearch = ()=> {
         this.setState({tempData: this.state.data});
     }
 
-    icon = <Icon
-    name='g-translate'
-    color='#ff8c00'></Icon>
-
     getShowView(element) {
         return <View key={element.key} style={styles.cardDsiplay}>
-            <Text style={styles.sideHeadings}>Before :</Text>
+            <Text style={styles.sideHeadings}>Before : {" "+"("+element.fromLang+")"}</Text>
             <Text style={styles.showTexts}>{element.beforeTranslation}</Text>
-            <Text style={styles.sideHeadings}>Translated :</Text>
+            <Text style={styles.sideHeadings}>Translated :{" "+"("+element.toLang+")"}</Text>
             <Text style={styles.showTexts}>{element.afterTranslation}</Text>
             <View style={styles.emptyspace} />
         </View>
@@ -83,7 +71,7 @@ class MainPage extends React.Component {
         return (
             <SafeAreaView style={{ flex: 1, marginTop: Constants.statusBarHeight }}>
                     <SearchBar
-                        placeholder="Type Here..."
+                        placeholder={this.state.searchPlaceHolder}
                         onChangeText={this.search}
                         value={this.state.searchText}
                         platform="default"
@@ -99,7 +87,7 @@ class MainPage extends React.Component {
                 </ScrollView>
                 <ActivityIndicator animating={this.state.loading} style={{ margin: '25%', position: 'absolute' }} size="large" color="#ff8c00" />
                 <TouchableOpacity style={styles.floatingButtonTouch}
-                    onPress={() => this.props.navigation.navigate('AddText', this.getAddedData)}>
+                    onPress={() => this.props.navigation.navigate('AddText')}>
                     <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png' }}
                         style={styles.floatingButton} />
                 </TouchableOpacity>

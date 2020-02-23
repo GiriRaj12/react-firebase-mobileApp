@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native'
 
 const styles = StyleSheet.create({
-  appbackground :{
+    appbackground :{
       flex: 1,
       backgroundColor:'white',
       position:'relative'
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
       shadowOpacity: 1.0,
     },
     sideHeadings:{
+      flexDirection:"row",
       padding:7,
       color:'#ff8c00',
       fontSize:16,
@@ -126,6 +127,15 @@ const styles = StyleSheet.create({
       marginLeft:16,
       fontSize:18
     },
+    bottomIcons : {
+      flexDirection:"row",
+      position:'absolute',  
+    },
+    avatarStyle:{
+      alignItems:'center',
+      alignContent:'center',
+      padding:60
+    }
 
   });
 

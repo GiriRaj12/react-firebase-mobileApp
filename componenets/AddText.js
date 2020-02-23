@@ -5,7 +5,8 @@ import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import CustomButton from '../cutomComponenets/CustomButton';
 import content from '../commonContent/content.js';
 import TextApi from '../config/textApi';
-import { database, auth } from '../config/config.js'
+import { database, auth } from '../config/config.js';
+import {Icon} from "react-native-elements"
 
 export default class AddText extends React.Component {
     state = {
@@ -77,7 +78,10 @@ export default class AddText extends React.Component {
                 afterTranslation: after,
                 createdDateLong: new Date().getTime(),
                 key: Math.random().toString(36).substring(6)
-        }).then(() => this.setState({ saveLoading: false }))
+        }).then(() => {
+            this.setState({ saveLoading: false })
+            this.props.getAddedData();
+        })
             .catch(() => this.setState({ saveLoading: false }));
         alert('Translation Added');
     }
@@ -93,6 +97,15 @@ export default class AddText extends React.Component {
     render() {
         return (
             <ScrollView style={styles.appbackground}>
+                <Icon 
+                        reverse
+                        size={20}
+                        name="accessibility"
+                        type="material"
+                        color="#ff8c00"
+                        onPress={() => this.props.navigation.navigate('User')}
+                        containerStyle={{flexDirection:"row",position:'absolute',padding:5, marginLeft:"80%", marginTop:20}}
+                    />
                 <View style={{ width: '100%', marginTop: 80 }}>
                     <View style={styles.parralelViewParent}>
                         <View style={{ marginLeft: 40 }}>
@@ -104,6 +117,9 @@ export default class AddText extends React.Component {
                                 <Picker.Item label="English" value="en" />
                                 <Picker.Item label="Tamil" value="ta" />
                                 <Picker.Item label="Spanish" value="es" />
+                                <Picker.Item label="Malayalam" value="ml"/>
+                                <Picker.Item label="German" value="de"/>
+                                <Picker.Item label="Hindi" value="hi"/>
                             </Picker>
                         </View>
                         <View style={{ marginLeft: 40 }}>
@@ -115,6 +131,9 @@ export default class AddText extends React.Component {
                                 <Picker.Item label="English" value="en" />
                                 <Picker.Item label="Tamil" value="ta" />
                                 <Picker.Item label="Spanish" value="es" />
+                                <Picker.Item label="Malayalam" value="ml"/>
+                                <Picker.Item label="German" value="de"/>
+                                <Picker.Item label="Hindi" value="hi"/>
                             </Picker>
                         </View>
                     </View>
